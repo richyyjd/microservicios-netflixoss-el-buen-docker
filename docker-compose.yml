@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  config-server:
+    image: ms_config-server
+    ports:
+      - "8888:8888"
+    volumes:
+      - "/tmp/config-properties:/tmp/config-properties"
+
+  eureka:
+    image: ms_eureka
+    ports:
+      - "8761:8761"
+
+  customer:
+    image: ms_customer
+    links:
+     - config-server
+     - eureka
+
+  catalog:
+    image: ms_catalog
+    links:
+     - config-server
+     - eureka
+
+  order:
+    image: ms_order
+    links:
+     - config-server
+     - eureka
+
+  zuul:
+    image: ms_zuul
+    links:
+     - config-server
+     - eureka
+    ports:
+      - "8080:8080"
+
+  turbine:
+    image: ms_turbine
+    links:
+     - config-server
+     - eureka
+    ports:
+      - "8989:8989"
+

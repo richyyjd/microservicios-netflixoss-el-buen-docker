@@ -1,0 +1,43 @@
+version: '3'
+services:
+  config-server:
+    build: ../microservice-demo/microservice-demo-config-server
+    ports:
+      - "8888:8888"
+    volumes:
+      - "/tmp/config-properties:/tmp/config-properties"
+  eureka:
+    build: ../microservice-demo/microservice-demo-eureka-server
+    ports:
+      - "8761:8761"
+  customer:
+    build: ../microservice-demo/microservice-demo-customer
+    links:
+     - config-server
+     - eureka
+  catalog:
+    build: ../microservice-demo/microservice-demo-catalog
+    links:
+     - config-server
+     - eureka
+  order:
+    build: ../microservice-demo/microservice-demo-order
+    links:
+     - config-server
+     - eureka
+  zuul:
+    build: ../microservice-demo/microservice-demo-zuul-server
+    links:
+     - config-server
+     - eureka
+    ports:
+      - "8080:8080"
+  turbine:
+    build: ../microservice-demo/microservice-demo-turbine-server
+    links:
+     - config-server
+     - eureka
+    ports:
+      - "8989:8989"
+
+
