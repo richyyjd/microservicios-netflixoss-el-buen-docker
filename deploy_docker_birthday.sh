@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo "========================================="
+echo " Downloading docker images"
+echo "========================================="
+docker-compose pull
+
 echo "=============================="
 echo " Copying propertie files to:"
 echo " /tmp/config-properties"
